@@ -20,6 +20,7 @@ export default function Search() {
       .then((response) => {
         setArtworks(response)
         setIsLoading(false)
+        setError(false)
         setSearch('')
       })
       .catch((err: Error) => {
