@@ -1,21 +1,40 @@
 import { Routes, Route } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
+import { useEffect } from 'react'
 
 import Navbar from './Navbar'
-import Home from './Home'
-import Artwork from './Artwork-info'
+import Home from './Homepage'
+import ArtworkInfo from './ArtworkInfo'
 import Profile from './Profile'
-import Collection from './Collection'
+import CollectionItems from './CollectionItems'
+import Search from './Search'
+import { addNewUser } from '../apis/user'
 
 function App() {
+  const { getAccessTokenSilently, user } = useAuth0()
+
+  useEffect(() => {
+    const getAccess = async () => {
+      const token = await getAccessTokenSilently()
+      const username = user?.name
+      if (username == null) {
+        return console.log('Username doesnt exist')
+      }
+      addNewUser(token, username)
+    }
+    getAccess().catch(console.error)
+  }, [user, getAccessTokenSilently])
+
   return (
     <>
       <Navbar />
-      <div className="border-black-200 bg-white-200 mt-20 mr-10 ml-10 mb-20 min-h-screen rounded-2xl border pl-10 pr-10 pt-10 pb-10">
+      <div className="bg-white-200 m-20 rounded-2xl border-2 border-my-gold p-10">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/artwork" element={<Artwork />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/collection" element={<Collection />} />
+          <Route path="/artworks/:id" element={<ArtworkInfo />} />
+          <Route path="/collections/:id" element={<CollectionItems />} />
           <Route path="/*" element={<></>} />
         </Routes>
       </div>

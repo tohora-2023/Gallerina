@@ -1,16 +1,23 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ['./client/**/*.{tsx,css}'],
   theme: {
     extend: {
+      fontFamily: {
+        'helvetica': ['Helvetica', 'sans-serif'],
+        'quicksand': ['Quicksand', 'sans-serif'],
+        'garamond': ['Garamond']
+      },
       colors: {
         'my-gold': '#A48948', //BDB5A2
+        'my-pale-gold': '#bdb5a2'
       },
     },
   },
   plugins: [],
   variants: {
-    extend: {},
+    extend: { display: ['group-hover'] },
   },
   utilities: {
     '.custom-link': {

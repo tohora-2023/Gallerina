@@ -3,8 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { KeyboardEvent, useState } from 'react'
 
 export default function Navbar() {
-  const { logout, loginWithRedirect, isAuthenticated, user } = useAuth0()
-  console.log(user)
+  const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
 
   const [activeButton, setActiveButton] = useState('')
 
@@ -30,79 +29,88 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white-200 border-black-200 flex flex-wrap items-center justify-between border p-6">
+    <nav className="bg-white-200 flex flex-wrap items-center justify-between border-b-2 border-my-gold p-6">
       <div>
         <Link to="/">
           <img
-            src="./logo3.png"
+            src="/logo.png"
             alt="gallerina logo"
-            className="mr-10 h-12 w-auto"
+            className="ml-10 h-12 w-auto scale-150 transform"
+            onClick={() => setActiveButton('')}
           />
         </Link>
       </div>
 
-      <div className="block lg:hidden">
-        <button
-          className="flex items-center rounded border border-gray-600 px-3 py-2 text-gray-500 hover:border-white hover:text-white"
-          type="button"
-          aria-label="Toggle menu"
-        ></button>
-      </div>
-
-      <div className="w-full flex-grow lg:flex lg:w-auto lg:items-center">
-        <div className="text-sm lg:flex-grow">
+      <div className="w-fz ull  ml-auto lg:w-auto">
+        <div className="flex justify-end">
           <Link to="/">
             <button
-              className={`mt-4 mr-4 block cursor-pointer rounded-full border border-black ${
+              className={`mt-4 block cursor-pointer rounded-full border border-my-gold ${
                 activeButton === 'home'
-                  ? 'bg-my-gold'
-                  : 'bg-gray-500  hover:bg-my-gold'
-              } px-4 py-2 font-bold text-black lg:mt-0 lg:inline-block`}
+                  ? 'bg-my-gold text-white'
+                  : 'bg-white hover:border-white hover:bg-my-gold hover:text-white'
+              } shadow-xs mr-5 transform px-3 py-0.5 font-bold tracking-wide text-black transition duration-200 hover:-translate-y-1 hover:shadow-2xl active:translate-y-0 active:shadow-xl lg:mt-0 lg:inline-block `}
               onClick={() => setActiveButton('home')}
             >
               Home
             </button>
           </Link>
+          <Link to="/search">
+            <button
+              className={`mt-4 block cursor-pointer rounded-full border border-my-gold ${
+                activeButton === 'search'
+                  ? 'bg-my-gold text-white'
+                  : 'bg-white hover:border-white hover:bg-my-gold hover:text-white'
+              } shadow-xs transform px-3 py-0.5 font-bold tracking-wide text-black transition duration-200 hover:-translate-y-1 hover:shadow-2xl active:translate-y-0 active:shadow-xl lg:mt-0 lg:inline-block `}
+              onClick={() => setActiveButton('search')}
+            >
+              Search
+            </button>
+          </Link>
 
           {isAuthenticated && (
-            <Link to="/profile">
+            <Link to={`/profile`}>
               <button
-                className={`mt-4 mr-4 block cursor-pointer rounded-full border border-black ${
+                className={` mt-4   ml-5 block cursor-pointer rounded-full border border-my-gold ${
                   activeButton === 'profile'
-                    ? 'bg-my-gold'
-                    : 'bg-gray-500  hover:bg-my-gold'
-                } px-4 py-2 font-bold text-black lg:mt-0 lg:inline-block`}
+                    ? 'bg-my-gold text-white'
+                    : 'bg-white hover:border-white hover:bg-my-gold hover:text-white'
+                } shadow-xs transform px-3 py-0.5 font-bold tracking-wide text-black transition duration-200 hover:-translate-y-1 hover:shadow-2xl active:translate-y-0 active:shadow-xl lg:mt-0 lg:inline-block `}
                 onClick={() => setActiveButton('profile')}
               >
                 Profile
               </button>
             </Link>
           )}
-        </div>
-        <div className="text-right text-sm lg:flex-grow">
-        {isAuthenticated ? (
-          <div
-            onClick={handleLogOut}
-            onKeyDown={handleKeyDownLogout}
-            role="button"
-            tabIndex={0}
-            className="mt-4 mr-4 inline-block cursor-pointer rounded-full border border-black bg-gray-500 px-4 py-2 font-bold text-black hover:bg-my-gold"
-          >
-            Logout
-          </div>
-        ) : (
-          <button
-            onClick={handleLogIn}
-            onKeyDown={handleKeyDownLogin}
-            className="mt-4 mr-4 inline-block cursor-pointer rounded-full border border-black bg-gray-500 px-4 py-2 font-bold text-black hover:bg-my-gold"
-          >
-            Login
-          </button>
-        )}
-      </div>
-      </div>
 
-      
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogOut}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handleKeyDownLogout
+                }
+              }}
+              tabIndex={0}
+              className=" shadow-xs bg-white0 ml-5 inline-block transform cursor-pointer rounded-full border border-my-gold bg-white px-3 py-0 font-bold tracking-wide text-black transition duration-200 hover:-translate-y-1 hover:border-white  hover:bg-my-gold hover:text-white hover:shadow-2xl active:translate-y-0 active:shadow-xl "
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={handleLogIn}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handleKeyDownLogin
+                }
+              }}
+              className="shadow-xs gold ml-5 inline-block transform cursor-pointer rounded-full border  border-my-gold bg-white px-2 py-0.5 font-bold tracking-wide text-black transition duration-200 hover:-translate-y-1 hover:border-white hover:bg-my-gold hover:text-white hover:shadow-2xl active:translate-y-0 active:shadow-xl "
+            >
+              Login
+            </button>
+          )}
+        </div>
+      </div>
     </nav>
   )
 }
